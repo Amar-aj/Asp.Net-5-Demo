@@ -1,0 +1,92 @@
+﻿@model IEnumerable<System.IO.FileInfo>
+<style>
+    .card-img-top {
+       
+        
+    }
+</style>
+<div class="container">
+    <div class="row bg-success" style="height:30px">
+        @*<img src="~/btn/big.jpg" />
+        <img src="~/btn/small.png" />*@
+        <button id="smImage" onclick="smBtn_click()" style="background-image: url(/btn/small.png);">S</button>
+        <button id="lgImage" onclick="lgBtn_click()" style="background-image: url(/btn/big.jpg);">L</button>
+        <input type="range" min="1" max="200" value="100" class="" id="myRange">
+        <p   hidden="hidden">Value: <span id="demo"></span></p>
+      
+
+    </div>
+    <div class="row">
+        @if (Model != null)
+        {
+
+            @foreach (var item in Model)
+            {
+
+                @*<div class="col-sm-12 col-md-6 col-lg-3 col-xl-2">*@
+
+                <div class="card imageContainer" >
+                    @{
+                        //var fullPath = item.FullName.Replace(@"\", @"/");
+                        var fullPath = item.FullName.Substring(item.FullName.LastIndexOf(@"\"));
+
+
+                        <img alt="" class="img-fluid" src="~/img/@fullPath" style="height:100%; width:100%" />
+                    }
+                </div>
+
+                @*</div>*@
+
+            }
+
+        }
+    </div>
+
+        <script>
+            var slider = document.getElementById("myRange");
+            var output = document.getElementById("demo");
+            var lgBtn = document.getElementById("lgImage");
+            var smBtn = document.getElementById("smImage");
+
+            var getImageContainer = document.getElementsByClassName("imageContainer");
+            output.innerHTML = slider.value;
+            for (var i = 0; i < getImageContainer.length; i++) {
+                getImageContainer[i].style.height = '140px';
+                getImageContainer[i].style.width = '180px';
+            } 
+           
+            slider.oninput = function () {
+                for (var i = 0; i < getImageContainer.length; i++) {
+                    var HValue = 0;
+                    var WValue = 0;
+                    HValue = parseInt(40) + parseInt( this.value);
+                    WValue = parseInt(80) + parseInt(this.value);
+                    getImageContainer[i].style.height = HValue+'px';
+                    getImageContainer[i].style.width = WValue+'px';
+                } 
+                output.innerHTML = this.value;
+            }
+            function lgBtn_click () {
+                for (var i = 0; i < getImageContainer.length; i++) {
+                  
+                    getImageContainer[i].style.height = '200px';
+                    getImageContainer[i].style.width ='240px';
+                }
+                slider.value = 160;
+                output.innerHTML = this.value;
+            }
+            function smBtn_click() {
+                for (var i = 0; i < getImageContainer.length; i++) {
+                  
+                    getImageContainer[i].style.height = '50px';
+                    getImageContainer[i].style.width = '90px';
+
+                }
+                slider.value = 15;
+                output.innerHTML = this.value;
+            }
+
+        </script>
+
+    </div>
+
